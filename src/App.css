@@ -1,0 +1,52 @@
+/* Header */
+header {
+  margin-top: 30px;
+  color: rgb(255, 255, 255);
+
+  h1 {
+    margin: 0px;
+    font-size: 5rem;
+    font-family: "Coiny", system-ui;
+    text-transform: uppercase;
+  }
+}
+
+/* Main */
+main {
+  background-color: rgba(255, 255, 255, 0.884);
+  border-radius: 20px;
+  padding: 20px;
+
+  .icon {
+    font-size: 40px;
+  }
+
+  p {
+    margin: 0px;
+  }
+
+  .controls {
+    margin-top: 50px;
+
+    button {
+      margin: 10px;
+      margin-top: 0px;
+      padding: 20px;
+      font-size: 1rem;
+      background-color: pink;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: rgb(252, 152, 168);
+    }
+  }
+}
+
+/* Footer */
+footer {
+  color: rgb(255, 255, 255);
+  margin-top: 20px;
+}
