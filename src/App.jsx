@@ -2,55 +2,107 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [weather, setWeather] = useState({
-    temperature: 24,
-    wind: 0.3,
-    clouds: 5,
+  const getStartingWeather = () => ({
+    temperature: Math.floor(Math.random() * 12) + 17,
+    wind: Number((Math.random() * 0.5).toFixed(1)),
+    clouds: Math.floor(Math.random() * 11),
   });
 
-  /* Bättre-knapp */
+  const [weather, setWeather] = useState(getStartingWeather);
+
+  // Bättre väder
   function betterWeather() {
-    setWeather((current) => ({
-      ...current,
-      temperature: Math.min(current.temperature + 1, 28),
-      wind: Math.max(current.wind - 0.1, 0),
-      clouds: Math.max(current.clouds - 5, 0),
-    }));
+    setWeather((current) => {
+      const newTemperature = Math.min(current.temperature + 1, 35);
+
+      return {
+        ...current,
+        temperature: newTemperature,
+        wind: Number((Math.random() * 2.5).toFixed(1)),
+        clouds: Math.floor(Math.random() * 11),
+      };
+    });
   }
 
-  /* Sämre-knapp */
+  // Sämre väder
   function worseWeather() {
-    setWeather((current) => ({
-      ...current,
-      temperature: Math.max(current.temperature - 1, 17),
-      wind: current.wind + 0.1,
-      clouds: Math.min(current.clouds + 5, 100),
-    }));
+    setWeather((current) => {
+      const newTemperature = Math.max(current.temperature - 1, -15);
+
+      let newClouds;
+
+      if (newTemperature >= 17 && newTemperature <= 28) {
+        newClouds = Math.floor(Math.random() * 11);
+      }
+
+      else if (newTemperature >= 10) {
+        newClouds = Math.floor(Math.random() * 51);
+      }
+
+      else if (newTemperature >= 0) {
+        newClouds = Math.floor(Math.random() * 81);
+      }
+
+      else {
+        newClouds = Math.floor(Math.random() * 101);
+      }
+
+      return {
+        ...current,
+        temperature: newTemperature,
+        wind: Number((Math.random() * 12).toFixed(1)),
+        clouds: newClouds,
+      };
+    });
   }
 
-  /* Meddelande */
+  // Meddelande
   function getWeatherMessage() {
-    if (weather.temperature >= 27 && weather.clouds === 0) {
+    if (weather.temperature >= 35) {
+      return "Chilla, nu räcker det!!";
+    }
+
+    if (weather.temperature >= 29) {
+      return "Nu är det riktigt varmt..";
+    }
+
+    if (weather.temperature >= 26) {
       return "Det här börjar bli svårt att förbättra.";
     }
 
     if (weather.temperature >= 23 && weather.clouds <= 10) {
-      return "Perfekt väder!!";
+      return "Perfekt!!";
     }
 
-    if (weather.temperature >= 20 && weather.clouds <= 30) {
-      return "Helt okej väder.";
+    if (weather.temperature >= 17 && weather.clouds <= 10) {
+      return "Helt okej såhär.";
     }
 
-    if (weather.temperature >= 17) {
-      return "Det hade kunnat vara lite bättre!";
+    if (weather.temperature >= 8) {
+      return "Det här duger om man är sjuk.";
+    }
+
+    if (weather.temperature >= 0) {
+      return "Brrr.. nu börjar det bli kallt. 🐻‍❄️";
     }
 
     return "Vem godkände det här?";
   }
 
-  /* Ikoner */
+  // Ikoner
   function getWeatherIcon() {
+    if (weather.temperature < 0) {
+      return "❄️";
+    }
+
+    if (weather.temperature >= 31) {
+      return "🥵";
+    }
+
+    if (weather.temperature >= 17) {
+      return "☀️";
+    }
+
     if (weather.clouds >= 70) {
       return "☁️";
     }
@@ -59,11 +111,7 @@ function App() {
       return "🌤️";
     }
 
-    if (weather.temperature < 17) {
-      return "🌧️";
-    }
-
-    return "☀️";
+    return "🌥️";
   }
 
   return (
@@ -78,12 +126,12 @@ function App() {
 
           <p className="icon">{getWeatherIcon()}</p>
 
-          <p className="temperature">{weather.temperature}°</p>
+          <p className="temperature">{weather.temperature} °C</p>
 
           <h3 className="message">{getWeatherMessage()}</h3>
 
           <div className="weather-details">
-            <span>💨 {weather.wind} m/s</span>
+            <span>💨 {weather.wind.toFixed(1)} m/s</span>
             <span>☁️ {weather.clouds}%</span>
           </div>
         </section>
@@ -91,8 +139,13 @@ function App() {
         <section className="controls">
           <h3>Är vädret bra nog?</h3>
 
-          <button onClick={betterWeather}>Bättre väder ☀️</button>
-          <button onClick={worseWeather}>Sämre väder ☔</button>
+          <button onClick={betterWeather}>
+            Bättre väder ☀️
+          </button>
+
+          <button onClick={worseWeather}>
+            Sämre väder ☔
+          </button>
         </section>
       </main>
 
