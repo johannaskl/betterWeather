@@ -4,11 +4,11 @@ import "./App.css";
 function App() {
   const [weather, setWeather] = useState({
     temperature: 24,
-    condition: "Soligt såklaaart",
     wind: 0.3,
     clouds: 5,
   });
 
+  /* Bättre-knapp */
   function betterWeather() {
     setWeather((current) => ({
       ...current,
@@ -18,6 +18,7 @@ function App() {
     }));
   }
 
+  /* Sämre-knapp */
   function worseWeather() {
     setWeather((current) => ({
       ...current,
@@ -25,6 +26,44 @@ function App() {
       wind: current.wind + 0.1,
       clouds: Math.min(current.clouds + 5, 100),
     }));
+  }
+
+  /* Meddelande */
+  function getWeatherMessage() {
+    if (weather.temperature >= 27 && weather.clouds === 0) {
+      return "Det här börjar bli svårt att förbättra.";
+    }
+
+    if (weather.temperature >= 23 && weather.clouds <= 10) {
+      return "Perfekt väder!!";
+    }
+
+    if (weather.temperature >= 20 && weather.clouds <= 30) {
+      return "Helt okej väder.";
+    }
+
+    if (weather.temperature >= 17) {
+      return "Det hade kunnat vara lite bättre!";
+    }
+
+    return "Vem godkände det här?";
+  }
+
+  /* Ikoner */
+  function getWeatherIcon() {
+    if (weather.clouds >= 70) {
+      return "☁️";
+    }
+
+    if (weather.clouds >= 30) {
+      return "🌤️";
+    }
+
+    if (weather.temperature < 17) {
+      return "🌧️";
+    }
+
+    return "☀️";
   }
 
   return (
@@ -37,11 +76,11 @@ function App() {
         <section className="weather">
           <h2>Dagens väder, fast som du vill ha det</h2>
 
-          <p className="icon">☀️</p>
+          <p className="icon">{getWeatherIcon()}</p>
 
           <p className="temperature">{weather.temperature}°</p>
 
-          <h3>{weather.condition}</h3>
+          <h3 className="message">{getWeatherMessage()}</h3>
 
           <div className="weather-details">
             <span>💨 {weather.wind} m/s</span>
